@@ -1,13 +1,13 @@
-# binary-case
-
 [![NPM version](https://img.shields.io/npm/v/binary-case.svg?style=flat)](https://npmjs.org/package/binary-case)
 [![NPM downloads](https://img.shields.io/npm/dm/binary-case.svg?style=flat)](https://npmjs.org/package/binary-case)
 [![Build status](https://img.shields.io/travis/Gi60s/binary-case.svg?style=flat)](https://travis-ci.org/Gi60s/binary-case)
 [![Test coverage](https://img.shields.io/coveralls/Gi60s/binary-case.svg?style=flat)](https://coveralls.io/r/Gi60s/binary-case?branch=master)
 
+# binary-case
+
 Take a string and a number and perform binary case switching on alpha characters.
 
-**Example**
+## Example
 
 ```js
 const binaryCase = require('binary-case');
