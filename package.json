@@ -1,0 +1,27 @@
+{
+  "name": "binary-case",
+  "version": "1.0.0",
+  "description": "Take a string and a number and perform binary case switching on alpha characters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gi60s/binary-case.git"
+  },
+  "keywords": [
+    "case",
+    "letter",
+    "alpha"
+  ],
+  "author": "James Speirs",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Gi60s/binary-case/issues"
+  },
+  "homepage": "https://github.com/Gi60s/binary-case#readme",
+  "devDependencies": {
+    "tape": "^4.6.2"
+  }
+}
