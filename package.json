@@ -4,7 +4,7 @@
   "description": "Take a string and a number and perform binary case switching on alpha characters.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test.js"
+    "test": "nyc tape test.js && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/Gi60s/binary-case#readme",
   "devDependencies": {
+    "coveralls": "^2.11.14",
+    "nyc": "^8.4.0",
     "tape": "^4.6.2"
   }
 }
