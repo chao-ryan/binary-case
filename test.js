@@ -64,13 +64,15 @@ test('binary-case', function(t) {
     t.equal(binaryCase('a 123bc', 7), 'A 123BC', 'all chars');
     t.equal(binaryCase('a 123bc', 8), binaryCase('a 123bc', 0), 'duplicate');
     t.equal(binaryCase('a 123bc', 8, noOverflow), false, 'unable to modify');
+
+    t.equal(binaryCase('Abc', 1), 'abc', 'toggle case');
     
     t.equal(binaryCase.maxNumber('abc'), 7, 'max number');
     t.equal(binaryCase.maxNumber('a-bc'), 7, 'max number dash');
     t.equal(binaryCase.maxNumber('a bc'), 7, 'max number space');
     t.equal(binaryCase.maxNumber('a 123bc'), 7, 'max number space and numbers');
 
-    const iterator = binaryCase.iterator('abc', { allowOverflow: false });
+    const iterator = binaryCase.iterator('abc');
     const first = iterator.next();
     t.equal(first.value, 'abc', 'no change');
     t.equal(first.done, false, 'not done');
@@ -85,6 +87,13 @@ test('binary-case', function(t) {
     t.equal(last.done, false, 'is not done');
     t.equal(iterator.next().done, true, 'done');
     t.equal(iterator.next().done, true, 'still done');
+
+    const iterator2 = binaryCase.iterator('abc', { startIndex: 3 });
+    t.equal(iterator2.next().value, 'ABc', 'start at index');
+
+    t.throws(function() { binaryCase.iterator('abc', { startIndex: -1 })}, Error, 'Negative start index');
+    t.throws(function() { binaryCase.iterator('abc', { startIndex: 'Hello' })}, Error, 'Start index not a string');
+    t.throws(function() { binaryCase.iterator('abc', { startIndex: 1.2 })}, Error, 'Start index not an integer');
 
     const variations = binaryCase.variations('abc');
     t.equal(variations.length, 8, 'number of variations');
