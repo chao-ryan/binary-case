@@ -34,7 +34,9 @@ Take a string and a number and perform binary case switching on alpha characters
 **Parameters**
 
 - *string* - The string value to toggle alpha character cases on.
-- *number* - A decimal number that will be converted to binary to determine case switching.
+
+- *number* - A number that will be converted to binary to determine case switching.
+
 - *options* - An optional object that defines options for the function.
 
     - *allowOverflow* - Defaults to `true`. Set to `false` to have the `binaryCase` function return `false` when the number provided creates a binary string that is larger than the number of alpha characters in the string provided to be converted. Overflow will cause case switching sequences to repeat.
@@ -46,6 +48,30 @@ Take a string and a number and perform binary case switching on alpha characters
         ```
 
 **Returns** a string if successful or `false` on failure.
+
+### binaryCase.iterator ( string [, options ] ) : object
+
+Get an iterator object that will allow iteration through all variations of the string's casing.
+
+**Parameters**
+
+- *string* - The string to produce case variations for.
+
+- *options* - An optional object that defines options for the iterator.
+
+    - *startIndex* - The number to start with for producing variations. This will reduce the total number of possible variations.
+
+**Returns** an object with a *next* property.
+
+**Example**
+
+```js
+const iterator = binaryCase.iterator('abc');
+iterator.next().value;  // 'abc'
+iterator.next().value;  // 'Abc'
+iterator.next().value;  // 'aBc'
+iterator.next().value;  // 'ABc'
+```
 
 ### binaryCase.maxNumber ( string ) : number
 
