@@ -26,12 +26,58 @@
 module.exports = binaryCase;
 
 function binaryCase(string, number, options) {
-    const binary = (number >>> 0).toString(2);
-
     if (!options || typeof options !== 'object') options = {};
     if (!options.hasOwnProperty('allowOverflow')) options.allowOverflow = true;
 
-    if (binary.length > string.match(/[a-z]/ig).length && !options.allowOverflow) return false;
+    if (number > binaryCase.maxNumber(string) && !options.allowOverflow) return false;
+
+    return getBinaryCase(string, number);
+}
+
+binaryCase.iterator = function(string, options) {
+    const max = binaryCase.maxNumber(string);
+
+    if (!options || typeof options !== 'object') options = {};
+    if (!options.hasOwnProperty('startIndex')) options.startIndex = 0;
+    if (typeof options.startIndex !== 'number' || !Number.isInteger(options.startIndex) && options.startIndex < 0) throw Error('Option startIndex must be a non-negative integer.');
+
+    var index = options && typeof options === 'object' ? options.startIndex || 0 : 0;
+    return {
+        next: function() {
+            return index > max
+                ? { done: true }
+                : { done: false, value: getBinaryCase(string, index++) };
+        }
+    };
+};
+
+/**
+ * Get the maximum number that can be used before causing overflow.
+ * @param {string} string
+ * @returns {number}
+ */
+binaryCase.maxNumber = function(string) {
+    const pow = string.match(/[a-z]/ig).length;
+    return Math.pow(2, pow) - 1;
+};
+
+/**
+ * Get an array of all possible variations.
+ * @param {string} string
+ * @returns {string[]}
+ */
+binaryCase.variations = function(string) {
+    const results = [];
+    const max = binaryCase.maxNumber(string);
+    for (var i = 0; i <= max; i++) {
+        results.push(binaryCase(string, i));
+    }
+    return results;
+};
+
+
+function getBinaryCase(string, number) {
+    const binary = (number >>> 0).toString(2);
 
     var bin;
     var ch;
@@ -61,27 +107,3 @@ function binaryCase(string, number, options) {
     }
     return result;
 }
-
-/**
- * Get the maximum number that can be used before causing overflow.
- * @param {string} string
- * @returns {number}
- */
-binaryCase.maxNumber = function(string) {
-    const pow = string.match(/[a-z]/ig).length;
-    return Math.pow(2, pow) - 1;
-};
-
-/**
- * Get an array of all possible variations.
- * @param {string} string
- * @returns {string[]}
- */
-binaryCase.variations = function(string) {
-    const results = [];
-    const max = binaryCase.maxNumber(string);
-    for (var i = 0; i <= max; i++) {
-        results.push(binaryCase(string, i));
-    }
-    return results;
-};
