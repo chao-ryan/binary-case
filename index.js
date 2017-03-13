@@ -41,7 +41,7 @@ binaryCase.iterator = function(string, options) {
     if (!options.hasOwnProperty('startIndex')) options.startIndex = 0;
     if (typeof options.startIndex !== 'number' || !Number.isInteger(options.startIndex) && options.startIndex < 0) throw Error('Option startIndex must be a non-negative integer.');
 
-    var index = options && typeof options === 'object' ? options.startIndex || 0 : 0;
+    var index = options.startIndex;
     return {
         next: function() {
             return index > max
