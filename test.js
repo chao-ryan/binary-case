@@ -70,6 +70,22 @@ test('binary-case', function(t) {
     t.equal(binaryCase.maxNumber('a bc'), 7, 'max number space');
     t.equal(binaryCase.maxNumber('a 123bc'), 7, 'max number space and numbers');
 
+    const iterator = binaryCase.iterator('abc', { allowOverflow: false });
+    const first = iterator.next();
+    t.equal(first.value, 'abc', 'no change');
+    t.equal(first.done, false, 'not done');
+    t.equal(iterator.next().value, 'Abc', 'first char');
+    t.equal(iterator.next().value, 'aBc', 'second char');
+    t.equal(iterator.next().value, 'ABc', 'first and second char');
+    t.equal(iterator.next().value, 'abC', 'third char');
+    t.equal(iterator.next().value, 'AbC', 'first and third char');
+    t.equal(iterator.next().value, 'aBC', 'second and third char');
+    const last = iterator.next();
+    t.equal(last.value, 'ABC', 'all chars');
+    t.equal(last.done, false, 'is not done');
+    t.equal(iterator.next().done, true, 'done');
+    t.equal(iterator.next().done, true, 'still done');
+
     const variations = binaryCase.variations('abc');
     t.equal(variations.length, 8, 'number of variations');
     t.equal(variations[0], 'abc', 'no change');
