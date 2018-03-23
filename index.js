@@ -1,6 +1,6 @@
 /**
  *  @license
- *    Copyright 2016 Brigham Young University
+ *    Copyright 2018 Brigham Young University
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ binaryCase.iterator = function(string, options) {
     if (!options.hasOwnProperty('startIndex')) options.startIndex = 0;
     if (typeof options.startIndex !== 'number' || !Number.isInteger(options.startIndex) || options.startIndex < 0) throw Error('Option startIndex must be a non-negative integer.');
 
-    var index = options.startIndex;
+    let index = options.startIndex;
     return {
         next: function() {
             return index > max
@@ -69,41 +69,40 @@ binaryCase.maxNumber = function(string) {
 binaryCase.variations = function(string) {
     const results = [];
     const max = binaryCase.maxNumber(string);
-    for (var i = 0; i <= max; i++) {
+    for (let i = 0; i <= max; i++) {
         results.push(binaryCase(string, i));
     }
     return results;
 };
 
+/**
+ * A performance improved method for acquiring the binary case, provided by Blake Embrey with very minor modification by James Speirs.
+ * @author Blake Embrey | https://github.com/blakeembrey
+ * @author James Speirs | https://github.com/gi60s
+ * @param {string} str
+ * @param {number} val
+ * @returns {string}
+ */
+function getBinaryCase (str, val) {
+    let res = '';
 
-function getBinaryCase(string, number) {
-    const binary = (number >>> 0).toString(2);
+    for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i);
 
-    var bin;
-    var ch;
-    var i;
-    var j = binary.length - 1;
-    var offset;
-    var result = '';
-    for (i = 0; i < string.length; i++) {
-        ch = string.charAt(i);
-        if (/[a-z]/ig.test(ch)) {
-            bin = binary.charAt(j--);
-
-            if (bin === '1') {
-                offset = ch >= 'a' && ch <= 'z' ? -32 : 32;
-                result += String.fromCharCode(ch.charCodeAt(0) + offset);
-            } else {
-                result += ch;
-            }
-
-            if (j < 0) {
-                result += string.substr(i + 1);
-                break;
-            }
+        if (code >= 65 && code <= 90) {
+            res += val & 1 ? String.fromCharCode(code + 32) : String.fromCharCode(code);
+            val >>>= 1;
+        } else if (code >= 97 && code <= 122) {
+            res += val & 1 ? String.fromCharCode(code - 32) : String.fromCharCode(code);
+            val >>>= 1;
         } else {
-            result += ch;
+            res += String.fromCharCode(code);
+        }
+
+        if (val === 0) {
+            return res + str.substr(i + 1);
         }
     }
-    return result;
+
+    return res;
 }
