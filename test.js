@@ -65,6 +65,17 @@ test('binary-case', function(t) {
     t.equal(binaryCase('a 123bc', 8), binaryCase('a 123bc', 0), 'duplicate');
     t.equal(binaryCase('a 123bc', 8, noOverflow), false, 'unable to modify');
 
+    t.equal(binaryCase('A 123BC', 0), 'A 123BC', 'no change');
+    t.equal(binaryCase('A 123BC', 1), 'a 123BC', 'first char');
+    t.equal(binaryCase('A 123BC', 2), 'A 123bC', 'second char');
+    t.equal(binaryCase('A 123BC', 3), 'a 123bC', 'first and second char');
+    t.equal(binaryCase('A 123BC', 4), 'A 123Bc', 'third char');
+    t.equal(binaryCase('A 123BC', 5), 'a 123Bc', 'first and third char');
+    t.equal(binaryCase('A 123BC', 6), 'A 123bc', 'second and third char');
+    t.equal(binaryCase('A 123BC', 7), 'a 123bc', 'all chars');
+    t.equal(binaryCase('A 123BC', 8), binaryCase('A 123BC', 0), 'duplicate');
+    t.equal(binaryCase('A 123BC', 8, noOverflow), false, 'unable to modify');
+
     t.equal(binaryCase('Abc', 1), 'abc', 'toggle case');
     
     t.equal(binaryCase.maxNumber('abc'), 7, 'max number');
