@@ -23,7 +23,9 @@
   "homepage": "https://github.com/Gi60s/binary-case#readme",
   "devDependencies": {
     "coveralls": "^2.11.14",
+    "dtsmake": "0.0.10",
     "nyc": "^8.4.0",
-    "tape": "^4.6.2"
+    "tape": "^4.6.2",
+    "tern": "^0.24.3"
   }
 }
